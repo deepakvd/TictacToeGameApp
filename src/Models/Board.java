@@ -1,12 +1,13 @@
 package Models;
 import Services.BoardService;
+import java.util.ArrayList;
 
 import java.util.List;
 
 public class Board
 {
     int size;
-    List<Cell> cells;
+    List<Cell> cells = new ArrayList<>();
 
     private BoardService boardService;
 
@@ -39,21 +40,6 @@ public class Board
         return null;
     }
 
-    public void setPlayer(int x, int y, Player player)
-    {
-        boardService.setPlayer(x, y, player);
-
-        if(boardService.checkWin(player))
-        {
-            System.out.println("Player " + player.getSymbol() + " wins!");
-        }
-        else if(boardService.checkDraw())
-        {
-            System.out.println("It's a draw!");
-        }
-
-    }
-
     public void resetBoard()
     {
         boardService.resetBoard();
@@ -63,14 +49,12 @@ public class Board
        boardService.displayBoard();
     }
 
-    public void getGameState()
-    {
-        // Implement game win/draw logic
-
-
-    }
-
     public int getBoardSize(){
         return size;
+    }
+
+    public BoardService GetBoardService()
+    {
+        return boardService;
     }
 }

@@ -82,6 +82,7 @@ public class BoardService {
         System.out.print(str);
     }
 
+
     // Check if the current player wins
     public boolean checkWin(Player player) {
         int boardSize = board.getBoardSize();
