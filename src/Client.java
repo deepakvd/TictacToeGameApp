@@ -1,8 +1,8 @@
 import java.util.Scanner;
-import Controllers.GameController;
 import Models.HumanPlayer;
 import Models.Player;
 import Services.GameService;
+import Controllers.GameController;
 
 public class Client {
     public static void main(String[] args) {
@@ -18,10 +18,10 @@ public class Client {
 
         // Start Game
         gameController.startGame();
-        gameController.displayBoard();
+
 
         // Let GameController handle the game loop
-        gameController.playGame(scanner);
+        gameController.startGame();
 
         scanner.close();
     }

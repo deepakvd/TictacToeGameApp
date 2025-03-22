@@ -5,8 +5,6 @@ import Models.Player;
 
 public class GameService {
 
-    private final BoardService boardService;
-    private final Board board;
 
     public GameService(BoardService boardService, Board board) {
         this.boardService = boardService;
