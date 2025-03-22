@@ -82,6 +82,14 @@ public class BoardService {
         System.out.print(str);
     }
 
+    public boolean isValidMove(Board board, int row, int col) {
+        return row >= 0 && row < board.getBoardSize() && col >= 0 && col < board.getBoardSize()
+                && board.getCell(row, col).isCellOccupied();
+    }
+
+    public void makeMove(Board board, int row, int col, Player player) {
+        board.SetCell(row, col, player);
+    }
 
     // Check if the current player wins
     public boolean checkWin(Player player) {
@@ -101,5 +109,15 @@ public class BoardService {
     // Check if the game is a draw
     public boolean checkDraw() {
         return totalMoves == board.getBoardSize() * board.getBoardSize();
+    }
+
+    public boolean isBoardFull(Board board)
+    {
+        for (Cell cell : board.getCells()) {
+            if (!cell.isCellOccupied()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

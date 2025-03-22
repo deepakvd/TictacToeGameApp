@@ -1,70 +1,61 @@
+
 package Controllers;
-
-import Models.Player;
-import Services.GameService;
-
 import java.util.Scanner;
+import Services.GameService;
 
 public class GameController {
     private final GameService gameService;
+    private final Scanner scanner;
+    private char currentPlayer;
 
     public GameController(GameService gameService) {
         this.gameService = gameService;
+        this.scanner = new Scanner(System.in);
+        this.currentPlayer = 'X';
     }
 
     public void startGame() {
-        gameService.startGame();
-    }
-
-    public boolean makeMove(int x, int y, Player player) {
-        return gameService.makeMove(x, y, player);
-    }
-
-    public void displayBoard() {
-        gameService.getGame().getBoard().displayBoard();
-    }
-
-    public void endGame() {
-        System.out.println("Game Over!");
-    }
-
-    public void playGame(Scanner scanner) {
         while (true) {
-            // Get Current Player
-            Player currentPlayer = gameService.getCurrentPlayer();
-            System.out.println(currentPlayer.getName() + "'s turn (" + currentPlayer.getSymbol() + ")");
+            gameService.printBoard();
+            System.out.println("Player " + currentPlayer + ", enter row (0-2) and column (0-2):");
 
-            // Input Move
-            System.out.print("Enter row and column (0-based index, e.g., '1 2'): ");
-            int x = scanner.nextInt();
-            int y = scanner.nextInt();
+            int row = getInput("Enter row: ");
+            int col = getInput("Enter column: ");
 
-            // Make Move
-            boolean validMove = makeMove(x, y, currentPlayer);
-            if (!validMove) {
-                System.out.println("Invalid move! Try again.");
-                continue;
+            if (gameService.makeMove(row, col, currentPlayer)) {
+                if (gameService. (currentPlayer)) {
+                    gameService.printBoard();
+                    System.out.println("Player " + currentPlayer + " wins!");
+                    break;
+                } else if (gameService.isBoardFull()) {
+                    gameService.printBoard();
+                    System.out.println("It's a draw!");
+                    break;
+                }
+                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+            } else {
+                System.out.println("Invalid move. Try again.");
             }
-
-            // Display Updated Board
-            displayBoard();
-
-            // Check Win Condition
-            if (gameService.checkWin()) {
-                System.out.println(currentPlayer.getName() + " wins! 🎉");
-                break;
-            }
-
-            // Check Draw Condition
-            if (gameService.checkDraw()) {
-                System.out.println("It's a draw! 😐");
-                break;
-            }
-
-            // Switch Player
-            gameService.switchPlayer();
         }
+        scanner.close();
+    }
 
-        endGame();
+    private int getInput(String prompt) {
+        int input;
+        while (true) {
+            try {
+                System.out.print(prompt);
+                input = scanner.nextInt();
+                if (input >= 0 && input <= 2) {
+                    return input;
+                } else {
+                    System.out.println("Invalid input. Please enter a number between 0 and 2.");
+                }
+
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next();
+            }
+        }
     }
 }
